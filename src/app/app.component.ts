@@ -28,13 +28,14 @@ export class AppComponent implements OnInit {
     window.addEventListener('offline', this.updateOnlineStatus.bind(this));
 
     if (this.swUpdate.isEnabled) {
-      this.swUpdate.versionUpdates.pipe(
-        filter((evt: any): evt is VersionReadyEvent => evt.type === 'VERSION_READY'),
-        map((evt: any) => {
+      this.swUpdate.versionUpdates
+        .pipe(
+          filter((evt: any): evt is VersionReadyEvent => evt.type === 'VERSION_READY')
+        )
+        .subscribe((evt: any) => {
           console.info(`currentVersion=[${evt.currentVersion} | latestVersion=[${evt.latestVersion}]`);
           this.modalVersion = true;
-        }),
-      );
+       });
     }
 
     this.loadModalPwa();
